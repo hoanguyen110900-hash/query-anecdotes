@@ -1,35 +1,21 @@
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
+import AnecdoteList from './components/AnecdoteList'
+import { useAnecdotes } from './hooks/useAnecdotes'
 
 const App = () => {
-  const handleVote = (anecdote) => {
-    console.log('vote')
-  }
+  const { isError } = useAnecdotes()
 
-  const anecdotes = [
-    {
-      content: 'If it hurts, do it more often',
-      id: '47145',
-      votes: 0,
-    },
-  ]
+  if (isError) {
+    return <h3>Anecdote service is not available due to server problem</h3>
+  }
 
   return (
     <div>
-      <h3>Anecdote app</h3>
-
+      <h2>Anecdote app</h2>
       <Notification />
+      <AnecdoteList />
       <AnecdoteForm />
-
-      {anecdotes.map((anecdote) => (
-        <div key={anecdote.id}>
-          <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => handleVote(anecdote)}>vote</button>
-          </div>
-        </div>
-      ))}
     </div>
   )
 }

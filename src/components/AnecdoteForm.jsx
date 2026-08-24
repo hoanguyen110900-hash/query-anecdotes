@@ -1,15 +1,23 @@
+import { useAnecdotes } from '../hooks/useAnecdotes'
+
 const AnecdoteForm = () => {
-  const onCreate = (event) => {
+  const { isPending, addAnecdote: addAnecdoteToServer } = useAnecdotes()
+
+  const addAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.reset()
-    console.log('new anecdote')
+    addAnecdoteToServer(content)
+  }
+
+  if (isPending) {
+    return <div>loading data...</div>
   }
 
   return (
     <div>
-      <h3>create new</h3>
-      <form onSubmit={onCreate}>
+      <h3>Create new</h3>
+      <form onSubmit={addAnecdote}>
         <input name="anecdote" />
         <button type="submit">create</button>
       </form>
